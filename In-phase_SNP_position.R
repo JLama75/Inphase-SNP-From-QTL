@@ -227,10 +227,9 @@ cluster42AB_distal <- subset(QTL2_3_2R_SNP, POS >= 2380000 & POS <=2383000) #nea
 cluster42AB <- subset(QTL2_3_2R_SNP, POS >= 2144200 & POS <=2386719) #11
 write.csv(cluster42AB, "cluster42AB_In-phaseSNP.csv")
 ##########################################################
+
 #QTL3 both narrowed peak
-#6499214---2,386,719
-# 2,366,719-2,386,719
-#2R:2,359,234..2,359,287
+
 QTL3_both <- subset(QTL2_3_2R_SNP, POS >= 2030000 & POS <=2310000)
 setwd("~/Documents/Paper/Supplementals")
 
