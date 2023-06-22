@@ -1,48 +1,48 @@
-#Larval and Ovary Expressing Inphase SNPs
+#Obtaining Inphase SNPs of genes that are expressed in larvae and adult ovarian tissue
 
 library(reshape2)
 library(dplyr)
 library(data.table)
 
-#opening the file where the SNP position effecting each genes are seperated in a column.
+#opening the file with the SNP positions of each gene.
 genes <- read.csv("QTL2_genes.csv", header=T, na.strings = c("", "NA"))
-genes_copy <- cbind(genes) #copying dataframe 
+genes_copy <- cbind(genes) #copying data frame 
 
 #replacing duplicated genes within each row by NA
 genes[which(t(apply(genes,1,function(genes) duplicated(genes))), arr.ind = T)] <- NA
 
-#To compare the genes in every position, first melt the genes in different rows and sort it on the basis of position in ascending order
+#To compare the genes in every position, first melt the genes in different rows and sort them on the basis of position in ascending order
 A<- melt(genes, id = c("CHROM", "POS"))
 sorted1 <- A[order(A$POS), ]
-sorted1$duplicate <- duplicated(sorted1$POS) #checking the duplicated postions to check whether sorting has occured
+sorted1$duplicate <- duplicated(sorted1$POS) #checking whether sorting has occurred
 summary(sorted1)
 A1<- sorted1[!is.na(sorted1$value), ] #removing the NA values.
-A2 <- setDT(A1)[,.(value=paste(value,collapse=",")),by="POS"] #all the genes in every postitions with NA values removed.
+A2 <- setDT(A1)[,.(value=paste(value,collapse=",")),by="POS"] #obtaining all the genes in every position.
 
 #Comparing with the larval expressed genes (L3) by merging them by the column with gene names
 larval_genes <- read.delim("larval_Genes.txt", header=F, col.names = c("value"))
 merged_genes <- merge(A, larval_genes, by = "value") 
 sorted <- merged_genes[order(merged_genes$POS), ] 
-sorted$duplicate <- duplicated(sorted$POS) #checking if sorting has occured by looking at duplicated rows
-sorted2 <- setDT(sorted)[,.(value=paste(value,collapse=",")),by="POS"] #merging the row with same Position into one with the genes seperated by comma
+sorted$duplicate <- duplicated(sorted$POS) #checking if sorting has occured
+sorted2 <- setDT(sorted)[,.(value=paste(value,collapse=",")),by="POS"] #merging the row with the same position into one single row and all the genes separated by comma
 sorted2$duplicate <- duplicated(sorted2$POS)
-summary(sorted2) #checking number of FALSE and TRUE 
-Larval_sortGene <- select(sorted2, POS, value) # selecting columns without the duplication column
+summary(sorted2) #checking the number of FALSE and TRUE 
+Larval_sortGene <- select(sorted2, POS, value) # selecting non-duplicated column
 
 
 genes$larval_expressed <- genes$POS %in% sorted2$POS #gives a TRUE or FALSE value for matched/unmatched POS
 summary(genes) #1414 larval expressed matched genes, 1414 TRUE values in larval_expressed column
 Larval_SNPs <- select(genes, CHROM, POS, larval_expressed)
 
-#Comparing with the adult ovary expressed genes by merging them by the column with gene names
+#Merging with adult ovarian expressed genes 
 Ovary_genes <- read.delim("Ovary_Genes.txt", header=F, col.names = c("value"))
 merged_genes2 <- merge(A, Ovary_genes, by = "value") 
 Ovary_sorted <- merged_genes2[order(merged_genes2$POS), ] 
-Ovary_sorted$duplicate <- duplicated(Ovary_sorted$POS) #checking if sorting has occured looking for duplicated rows
+Ovary_sorted$duplicate <- duplicated(Ovary_sorted$POS) #checking if sorting has occured
 
 Ovary_sorted2 <- setDT(Ovary_sorted)[,.(value=paste(value,collapse=",")),by="POS"]
 Ovary_sorted2$duplicate <- duplicated(Ovary_sorted2$POS)
-summary(Ovary_sorted2) #checking number of FALSE and TRUE 
+summary(Ovary_sorted2) #checking the number of FALSE and TRUE 
 Ovary_sort <- select(Ovary_sorted2, POS, value)
 
 
@@ -55,19 +55,19 @@ Inphase_QTL2a <- read.delim("Inphase_SNP_QTL2.a.txt", header=T)
 Inphase_QTL2a_larval <- merge(Larval_SNPs, Inphase_QTL2a, by= 'POS')
 Inphase_QTL2a_ovaryLarval <- merge(Ovary_SNPs, Inphase_QTL2a_larval, by= 'POS')
 
-Inphase_QTL2a_ovaryLarval1 <- merge(Ovary_sort, Inphase_QTL2a_ovaryLarval, by ='POS', all.y = TRUE) #also merging the ovary expressed gene name without deleting the extra SNP positions not expressing it.
+Inphase_QTL2a_ovaryLarval1 <- merge(Ovary_sort, Inphase_QTL2a_ovaryLarval, by ='POS', all.y = TRUE) 
 Inphase_QTL2a_ovaryLarval2 <- merge(Larval_sortGene, Inphase_QTL2a_ovaryLarval1, by ='POS', all.y = TRUE)
 write.table(Inphase_QTL2a_ovaryLarval2, file = "Inphase_QTL2a_ovaryLarval.txt", sep = "\t")
 
-#merging all SNP Positions with only the inphase SNP postions for QTL2 2L criteria b
+#merging all SNP Positions with only the in-phase SNP positions for QTL2 2L criteria b
 Inphase_QTL2b <- read.delim("Inphase_SNP_QTL2.b.txt", header=T)
 Inphase_QTL2b_larval <- merge(Larval_SNPs, Inphase_QTL2b, by= 'POS')
 Inphase_QTL2b_ovaryLarval <- merge(Ovary_SNPs, Inphase_QTL2b_larval, by= 'POS')
-Inphase_QTL2b_ovaryLarval1 <- merge(Ovary_sort, Inphase_QTL2b_ovaryLarval, by ='POS', all.y = TRUE) #also merging the ovary expressed gene name without deleting the extra SNP positions not expressing it.
+Inphase_QTL2b_ovaryLarval1 <- merge(Ovary_sort, Inphase_QTL2b_ovaryLarval, by ='POS', all.y = TRUE) 
 Inphase_QTL2b_ovaryLarval2 <- merge(Larval_sortGene, Inphase_QTL2b_ovaryLarval1, by ='POS', all.y = TRUE)
 write.table(Inphase_QTL2b_ovaryLarval2, file = "Inphase_QTL2b_ovaryLarval.txt", sep = "\t")
 
-#counting the total number of Genes affected by inphase SNPs 
+#counting the total number of Genes affected by in-phase SNPs 
 library(splitstackshape)
 OvaryGene_number <- select(Inphase_QTL2a_ovaryLarval2, POS, value.y)
 OvaryGene_number1 <- cSplit(OvaryGene_number, "value.y", ",", "long")
