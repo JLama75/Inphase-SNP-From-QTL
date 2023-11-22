@@ -1,4 +1,3 @@
-#you will need to change this to whatever your directory is.
 #setwd("~/Documents/computational/R_working/association_study/PopB-Final/paper_analyses/QTL_phasing")
 setwd("~/Documents/QTLphasing_responder_260")
 library("ggplot2")
@@ -12,7 +11,7 @@ load("conc.2L.20770000")
 load("conc.2R.2080000")
 
 
-#here is where he "hard code" the genotypes, assigning RILs with a >95% chance of having the allele of 1 particular founder as carrying that allele
+#here is where we "hard code" the genotypes, assigning RILs with a >95% chance of having the allele of 1 particular founder as carrying that allele
 conc.2L.19420000$founder[conc.2L.19420000$BB1 > 0.95] <- "BB1"
 conc.2L.19420000$founder[conc.2L.19420000$BB2 > 0.95] <- "BB2"
 conc.2L.19420000$founder[conc.2L.19420000$BB3 > 0.95] <- "BB3"
