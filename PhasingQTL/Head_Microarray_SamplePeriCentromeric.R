@@ -219,6 +219,7 @@ p <- ggplot(Peri_plot, aes(as.factor(founder),mean.expression, color=bais)) +
   ylab("Adjusted Expression\n") + theme_bw() +  mynamestheme + theme(legend.position="none") + 
   scale_colour_manual(values=c("red3","pink1")) + geom_hline(aes(yintercept=0), alpha=.5, size=1) + ylim(-0.25, 0.2)
 
+#Annotation is according to the results from TukeyHSD test.
 p+annotate("text", x = 1, y= 0.04, label="C", size = 7, color= "red3", fontface="bold") + annotate("text", x = 2, y= 0.06, label="AC", size = 7, color= "red3", fontface="bold") +
   annotate("text", x = 3, y= -0.07, label="C", size = 7, color= "red3", fontface="bold") + annotate("text", x = 4, y= -0.13, label="ABC", size = 7, color= "red3", fontface="bold")  +
   annotate("text", x = 5, y= 0.14, label="A", size = 7, color= "pink1", fontface="bold") + annotate("text", x = 6, y= 0.09, label="ABC", size = 7, color= "red3", fontface="bold") +
