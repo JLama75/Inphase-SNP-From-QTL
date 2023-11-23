@@ -7,7 +7,7 @@ library("rlist")
 library("ggplot2")
 library("tidyverse")
 
-#Following csv file with 864 unique RILs (recombinant inbred line) and information on the founder allele in 347 genomic positions
+#Following is the csv file with 864 unique RILs (recombinant inbred line) and information on the founder allele in 347 genomic positions
 #HMM release 4 (used dm3 co-ordinates of QTL2) : greater than 20550000(2L) and less than 1550000 (2R)
 HMM1<- read.csv("p95_HMM_2L_founderAssigned_sorted_dm3.csv")
 HMM2 <- read.csv("p95_HMM_2R_founderAssigned_sorted_dm3.csv")
