@@ -3,7 +3,8 @@
 `Lama J, Srivastav S, Tasnim S, Hubbard D, Hadjipanteli S, Smith BR, Macdonald SJ, Green L, Kelleher ES. Genetic variation in P-element dysgenic sterility is associated with double-strand break repair and alternative splicing of TE  transcripts. PLoS Genet. 2022 Dec 7;18(12):e1010080. doi: 10.1371/journal.pgen.1010080. PMID: 36477699; PMCID: PMC9762592.`
 
 
-**In-phase SNPs script: ** These are the script to extract SNPs within QTLs( QTL 1, 2, and 3) that are in-phase to the phenotypic classes.
+**In-phase SNPs script: ** 
+These are the script to extract SNPs within QTLs( QTL 1, 2, and 3) that are in-phase to the phenotypic classes.
 
 
 ## Title: Genetic variation in P-element dysgenic sterility is associated with double-strand break repair and alternative splicing of TE transcripts
