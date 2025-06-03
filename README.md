@@ -4,6 +4,7 @@
 
 
 **In-phase SNPs script: ** 
+
 These are the script to extract SNPs within QTLs( QTL 1, 2, and 3) that are in-phase to the phenotypic classes.
 
 
